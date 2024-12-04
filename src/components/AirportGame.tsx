@@ -3,35 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import AnswerOptions from './game/AnswerOptions';
 import QuestionHeader from './game/QuestionHeader';
-import { fetchWikipediaData, airportData } from '../services/wikipediaService';
+import { getRandomAirport, getRandomAirportCodes } from '../services/airportService';
 import { Lightbulb } from 'lucide-react';
 import { Progress } from './ui/progress';
 import confetti from 'canvas-confetti';
-
-interface Airport {
-  code: string;
-  city: string;
-  image: string;
-  province: string;
-  country: string;
-  continent: string;
-  name: string;
-}
-
-interface GameState {
-  currentQuestion: number;
-  score: number;
-  answered: boolean;
-  selectedAnswer: string | null;
-  correctAnswer: string;
-  options: string[];
-  currentAirport: Airport | null;
-  hintUsed: boolean;
-  usedCities: Set<string>;
-}
+import { useGameLogic } from './game/GameLogic';
 
 const TOTAL_QUESTIONS = 10;
-const PROGRESS_DURATION = 5000; // 5 seconds
+const PROGRESS_DURATION = 5000;
 
 const AirportGame = () => {
   const navigate = useNavigate();
@@ -39,66 +18,30 @@ const AirportGame = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
-  const [gameState, setGameState] = useState<GameState>({
-    currentQuestion: 1,
-    score: 0,
-    answered: false,
-    selectedAnswer: null,
-    correctAnswer: '',
-    options: [],
-    currentAirport: null,
-    hintUsed: false,
-    usedCities: new Set(),
-  });
-
-  const getRandomOptions = (correctCode: string) => {
-    const otherCodes = airportData
-      .map(airport => airport.code)
-      .filter(code => code !== correctCode);
-    const shuffled = otherCodes.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 4);
-    const allOptions = [...selected, correctCode];
-    return allOptions.sort(() => 0.5 - Math.random());
-  };
+  const { gameState, updateGameState } = useGameLogic();
 
   const fetchAirportData = async () => {
     try {
       setLoading(true);
-      let randomAirport;
-      let attempts = 0;
-      const maxAttempts = 10;
-
-      do {
-        const randomIndex = Math.floor(Math.random() * airportData.length);
-        randomAirport = airportData[randomIndex];
-        attempts++;
-      } while (
-        gameState.usedCities.has(randomAirport.wiki) && 
-        attempts < maxAttempts
-      );
-
-      if (attempts >= maxAttempts) {
-        toast({
-          title: "Error",
-          description: "Unable to find a unique city. Please try again.",
-          variant: "destructive",
-        });
+      const airport = await getRandomAirport();
+      
+      if (gameState.usedCities.has(airport.wiki_url)) {
+        await fetchAirportData();
         return;
       }
 
-      const airport = await fetchWikipediaData(randomAirport.wiki);
-      const options = getRandomOptions(airport.code);
+      const wrongOptions = await getRandomAirportCodes(airport.iata_code);
+      const allOptions = [...wrongOptions, airport.iata_code].sort(() => 0.5 - Math.random());
 
-      setGameState(prev => ({
-        ...prev,
+      updateGameState({
         currentAirport: airport,
-        options: options,
-        correctAnswer: airport.code,
+        options: allOptions,
+        correctAnswer: airport.iata_code,
         answered: false,
         selectedAnswer: null,
         hintUsed: false,
-        usedCities: new Set([...prev.usedCities, randomAirport.wiki]),
-      }));
+        usedCities: new Set([...gameState.usedCities, airport.wiki_url]),
+      });
     } catch (error) {
       toast({
         title: "Error",
@@ -180,12 +123,11 @@ const AirportGame = () => {
     if (gameState.answered) return;
 
     const isCorrect = selectedCode === gameState.correctAnswer;
-    setGameState(prev => ({
-      ...prev,
+    updateGameState({
       answered: true,
       selectedAnswer: selectedCode,
-      score: isCorrect ? prev.score + 1 : prev.score,
-    }));
+      score: isCorrect ? gameState.score + 1 : gameState.score,
+    });
 
     const airportName = gameState.currentAirport?.name || '';
     const truncatedName = airportName.length > 30 ? airportName.substring(0, 30) + '...' : airportName;
@@ -193,8 +135,8 @@ const AirportGame = () => {
     toast({
       title: isCorrect ? "Correct!" : "Incorrect",
       description: isCorrect 
-        ? `Well done! ${selectedCode} is the correct airport code for ${gameState.currentAirport?.city} (${truncatedName})`
-        : `The correct answer was ${gameState.correctAnswer} (${gameState.currentAirport?.city} - ${truncatedName})`,
+        ? `Well done! ${selectedCode} is the correct airport code for ${gameState.currentAirport?.city}`
+        : `The correct answer was ${gameState.correctAnswer} (${gameState.currentAirport?.city})`,
       variant: isCorrect ? "default" : "destructive",
     });
   };
