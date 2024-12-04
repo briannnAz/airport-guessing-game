@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import HomeScreen from "./components/HomeScreen";
 import AirportGame from "./components/AirportGame";
 import ResultsPage from "./components/ResultsPage";
 
@@ -15,7 +16,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AirportGame />} />
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/game" element={<AirportGame />} />
           <Route path="/results" element={<ResultsPage />} />
         </Routes>
       </BrowserRouter>
