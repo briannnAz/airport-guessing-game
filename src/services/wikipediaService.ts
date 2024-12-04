@@ -28,36 +28,22 @@ export const fetchWikipediaData = async (pageTitle: string) => {
     const imageData = await imageResponse.json();
     const image = imageData.query.pages[pageId].thumbnail?.source || 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05';
 
-    const cityMapping: { [key: string]: string } = {
-      'John_F._Kennedy_International_Airport': 'New York',
-      'Heathrow_Airport': 'London',
-      'Charles_de_Gaulle_Airport': 'Paris',
-      'Dubai_International_Airport': 'Dubai',
-      'Haneda_Airport': 'Tokyo',
-      'Singapore_Changi_Airport': 'Singapore',
-      'Los_Angeles_International_Airport': 'Los Angeles',
-      'Amsterdam_Airport_Schiphol': 'Amsterdam',
-    };
+    // Extract city name from the first sentence of the extract
+    const firstSentence = extract.split('.')[0];
+    const cityMatch = firstSentence.match(/(?:is\s+(?:an?\s+)?(?:international\s+)?airport\s+(?:serving|in|near)\s+)([^,\.]+)/i);
+    const city = cityMatch ? cityMatch[1].trim() : pageTitle.split('_')[0];
 
-    const nameMapping: { [key: string]: string } = {
-      'John_F._Kennedy_International_Airport': 'John F. Kennedy International Airport',
-      'Heathrow_Airport': 'Heathrow Airport',
-      'Charles_de_Gaulle_Airport': 'Charles de Gaulle Airport',
-      'Dubai_International_Airport': 'Dubai International Airport',
-      'Haneda_Airport': 'Haneda Airport',
-      'Singapore_Changi_Airport': 'Singapore Changi Airport',
-      'Los_Angeles_International_Airport': 'Los Angeles International Airport',
-      'Amsterdam_Airport_Schiphol': 'Amsterdam Airport Schiphol',
-    };
+    // Extract airport name from the page title and format it
+    const name = pageTitle.replace(/_/g, ' ');
 
     return {
       code: airportData.find(a => a.wiki === pageTitle)?.code || '',
-      city: cityMapping[pageTitle] || '',
+      city: city,
       image: image,
       province: 'Various',
       country: 'Various',
       continent: 'Various',
-      name: nameMapping[pageTitle] || pageTitle.replace(/_/g, ' '),
+      name: name,
     };
   } catch (error) {
     console.error('Error fetching Wikipedia data:', error);
