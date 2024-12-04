@@ -6,6 +6,23 @@ export const fetchWikipediaData = async (pageTitle: string) => {
     const pageId = Object.keys(contentData.query.pages)[0];
     const extract = contentData.query.pages[pageId].extract;
 
+    // Check if it's a commercial airport by looking for key indicators in the extract
+    const commercialKeywords = [
+      'passenger',
+      'airline',
+      'terminal',
+      'commercial',
+      'international'
+    ];
+
+    const isCommercial = commercialKeywords.some(keyword => 
+      extract.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    if (!isCommercial) {
+      throw new Error('Not a commercial airport');
+    }
+
     const imageUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${pageTitle}&pithumbsize=1000&origin=*`;
     const imageResponse = await fetch(imageUrl);
     const imageData = await imageResponse.json();
