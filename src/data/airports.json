@@ -139,6 +139,139 @@
       "city": "Mexico City",
       "country": "Mexico",
       "wiki_url": "https://en.wikipedia.org/wiki/Benito_Juárez_International_Airport"
+    },
+    {
+      "iata_code": "MUC",
+      "name": "Munich Airport",
+      "city": "Munich",
+      "country": "Germany",
+      "wiki_url": "https://en.wikipedia.org/wiki/Munich_Airport"
+    },
+    {
+      "iata_code": "FCO",
+      "name": "Leonardo da Vinci International Airport",
+      "city": "Rome",
+      "country": "Italy",
+      "wiki_url": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci_International_Airport"
+    },
+    {
+      "iata_code": "BCN",
+      "name": "Barcelona–El Prat Airport",
+      "city": "Barcelona",
+      "country": "Spain",
+      "wiki_url": "https://en.wikipedia.org/wiki/Barcelona–El_Prat_Airport"
+    },
+    {
+      "iata_code": "LGW",
+      "name": "London Gatwick Airport",
+      "city": "London",
+      "country": "United Kingdom",
+      "wiki_url": "https://en.wikipedia.org/wiki/Gatwick_Airport"
+    },
+    {
+      "iata_code": "MAN",
+      "name": "Manchester Airport",
+      "city": "Manchester",
+      "country": "United Kingdom",
+      "wiki_url": "https://en.wikipedia.org/wiki/Manchester_Airport"
+    },
+    {
+      "iata_code": "CGK",
+      "name": "Soekarno–Hatta International Airport",
+      "city": "Jakarta",
+      "country": "Indonesia",
+      "wiki_url": "https://en.wikipedia.org/wiki/Soekarno–Hatta_International_Airport"
+    },
+    {
+      "iata_code": "KUL",
+      "name": "Kuala Lumpur International Airport",
+      "city": "Kuala Lumpur",
+      "country": "Malaysia",
+      "wiki_url": "https://en.wikipedia.org/wiki/Kuala_Lumpur_International_Airport"
+    },
+    {
+      "iata_code": "DEL",
+      "name": "Indira Gandhi International Airport",
+      "city": "Delhi",
+      "country": "India",
+      "wiki_url": "https://en.wikipedia.org/wiki/Indira_Gandhi_International_Airport"
+    },
+    {
+      "iata_code": "BOM",
+      "name": "Chhatrapati Shivaji Maharaj International Airport",
+      "city": "Mumbai",
+      "country": "India",
+      "wiki_url": "https://en.wikipedia.org/wiki/Chhatrapati_Shivaji_Maharaj_International_Airport"
+    },
+    {
+      "iata_code": "DPS",
+      "name": "Ngurah Rai International Airport",
+      "city": "Denpasar",
+      "country": "Indonesia",
+      "wiki_url": "https://en.wikipedia.org/wiki/Ngurah_Rai_International_Airport"
+    },
+    {
+      "iata_code": "CPT",
+      "name": "Cape Town International Airport",
+      "city": "Cape Town",
+      "country": "South Africa",
+      "wiki_url": "https://en.wikipedia.org/wiki/Cape_Town_International_Airport"
+    },
+    {
+      "iata_code": "JNB",
+      "name": "O. R. Tambo International Airport",
+      "city": "Johannesburg",
+      "country": "South Africa",
+      "wiki_url": "https://en.wikipedia.org/wiki/O._R._Tambo_International_Airport"
+    },
+    {
+      "iata_code": "CAI",
+      "name": "Cairo International Airport",
+      "city": "Cairo",
+      "country": "Egypt",
+      "wiki_url": "https://en.wikipedia.org/wiki/Cairo_International_Airport"
+    },
+    {
+      "iata_code": "DOH",
+      "name": "Hamad International Airport",
+      "city": "Doha",
+      "country": "Qatar",
+      "wiki_url": "https://en.wikipedia.org/wiki/Hamad_International_Airport"
+    },
+    {
+      "iata_code": "AUH",
+      "name": "Abu Dhabi International Airport",
+      "city": "Abu Dhabi",
+      "country": "United Arab Emirates",
+      "wiki_url": "https://en.wikipedia.org/wiki/Abu_Dhabi_International_Airport"
+    },
+    {
+      "iata_code": "SVO",
+      "name": "Sheremetyevo International Airport",
+      "city": "Moscow",
+      "country": "Russia",
+      "wiki_url": "https://en.wikipedia.org/wiki/Sheremetyevo_International_Airport"
+    },
+    {
+      "iata_code": "DME",
+      "name": "Moscow Domodedovo Airport",
+      "city": "Moscow",
+      "country": "Russia",
+      "wiki_url": "https://en.wikipedia.org/wiki/Moscow_Domodedovo_Airport"
+    },
+    {
+      "iata_code": "YVR",
+      "name": "Vancouver International Airport",
+      "city": "Vancouver",
+      "country": "Canada",
+      "wiki_url": "https://en.wikipedia.org/wiki/Vancouver_International_Airport"
+    },
+    {
+      "iata_code": "YUL",
+      "name": "Montréal–Trudeau International Airport",
+      "city": "Montreal",
+      "country": "Canada",
+      "wiki_url": "https://en.wikipedia.org/wiki/Montréal–Trudeau_International_Airport"
     }
   ]
 }
