@@ -1,28 +1,25 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import HomeScreen from "./components/HomeScreen";
-import AirportGame from "./components/AirportGame";
-import ResultsPage from "./components/ResultsPage";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomeScreen from './components/HomeScreen';
+import AirportGame from './components/AirportGame';
+import ResultsPage from './components/ResultsPage';
+import HardModeGame from './components/game/HardModeGame';
+import HardModeResults from './components/game/HardModeResults';
+import { Toaster } from './components/ui/toaster';
+import './App.css';
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/game" element={<AirportGame />} />
+        <Route path="/results" element={<ResultsPage />} />
+        <Route path="/hard-game" element={<HardModeGame />} />
+        <Route path="/hard-results" element={<HardModeResults />} />
+      </Routes>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/game" element={<AirportGame />} />
-          <Route path="/results" element={<ResultsPage />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </Router>
+  );
+}
 
 export default App;
