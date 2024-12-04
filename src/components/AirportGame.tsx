@@ -42,6 +42,9 @@ const AirportGame = () => {
         hintUsed: false,
         usedCities: new Set([...gameState.usedCities, airport.wiki_url]),
       });
+      
+      // Reset hint-related state
+      setDisabledOptions([]);
     } catch (error) {
       toast({
         title: "Error",

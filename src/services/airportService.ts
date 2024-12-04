@@ -15,7 +15,7 @@ export const getRandomAirport = async (): Promise<Airport> => {
   return airports[randomIndex];
 };
 
-export const getRandomAirportCodes = async (excludeCode: string, count: number = 3): Promise<string[]> => {
+export const getRandomAirportCodes = async (excludeCode: string, count: number = 4): Promise<string[]> => {
   const airports = airportsData.airports
     .filter(airport => airport.iata_code !== excludeCode)
     .map(airport => airport.iata_code);
