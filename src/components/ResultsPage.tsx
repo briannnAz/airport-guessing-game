@@ -11,20 +11,20 @@ const ResultsPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="nyt-container">
-        <div className="bg-gray-50 p-8 text-center space-y-8">
-          <div className="border-b border-gray-300 pb-6">
-            <h1 className="nyt-heading mb-2">Game Complete</h1>
-            <p className="text-gray-500">Here's how you did</p>
+    <div className="min-h-screen bg-[#fbfbfd] flex items-center justify-center p-6">
+      <div className="apple-container max-w-2xl">
+        <div className="bg-white rounded-2xl p-12 shadow-sm space-y-10 text-center">
+          <div className="space-y-4">
+            <h1 className="apple-heading text-4xl md:text-5xl mb-2">Game Complete</h1>
+            <p className="text-xl text-gray-500 font-light">Here's how you did</p>
           </div>
           
-          <div className="font-serif text-6xl font-bold mb-8">
+          <div className="font-semibold text-7xl md:text-8xl text-gray-900 py-8">
             {score}/{total}
           </div>
           
-          <div className="mb-8">
-            <p className="text-gray-600">
+          <div className="text-xl text-gray-600 font-light">
+            <p>
               {score === total 
                 ? "Perfect score! You're an airport expert!" 
                 : score >= total / 2 
@@ -35,7 +35,7 @@ const ResultsPage = () => {
 
           <button
             onClick={handlePlayAgain}
-            className="nyt-button w-full max-w-xs mx-auto"
+            className="apple-button mt-8"
           >
             Play Again
           </button>

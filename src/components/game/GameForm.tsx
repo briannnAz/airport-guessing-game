@@ -25,7 +25,7 @@ const GameForm = ({
   isLastQuestion,
 }: GameFormProps) => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <HintsList hints={hints} />
       
       <input
@@ -33,7 +33,7 @@ const GameForm = ({
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
         placeholder="Enter airport code (e.g., LAX)"
-        className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 text-lg transition-all duration-300"
         maxLength={3}
         disabled={answered}
       />
@@ -42,7 +42,7 @@ const GameForm = ({
         <div className="flex gap-4">
           <button
             type="submit"
-            className="flex-1 bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+            className="apple-button w-full"
           >
             Submit
           </button>

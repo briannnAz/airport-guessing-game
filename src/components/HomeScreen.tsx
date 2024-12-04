@@ -5,58 +5,60 @@ const HomeScreen = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8">
-      <div className="nyt-container space-y-8 text-center">
-        <div className="border-b border-gray-300 pb-8 mb-8">
-          <h1 className="nyt-heading mb-4">
-            Airport Guessr
-          </h1>
-          <p className="nyt-subheading">
-            Knowledge of the Skies
-          </p>
-        </div>
-        
-        <div className="bg-gray-50 p-8 space-y-6">
-          <h2 className="font-serif text-2xl font-semibold text-gray-800">How to Play</h2>
+    <div className="min-h-screen bg-[#fbfbfd]">
+      <div className="apple-container py-16 md:py-24">
+        <div className="space-y-12 text-center">
+          <div className="space-y-4">
+            <h1 className="apple-heading">
+              Airport Guessr
+            </h1>
+            <p className="apple-subheading">
+              Test your knowledge of international airports.
+            </p>
+          </div>
           
-          <ul className="text-left space-y-4 text-gray-600">
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              You will be shown a city name and need to match it to its airport code
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              Choose from five possible airport codes
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              Use the lightbulb hint once per round to remove one incorrect answer
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              Get immediate feedback on your answers
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              Complete 10 rounds to test your airport knowledge
-            </li>
-          </ul>
-        </div>
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm space-y-8">
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">How to Play</h2>
+            
+            <ul className="text-left space-y-6 text-gray-600">
+              <li className="flex items-start">
+                <span className="mr-3 text-lg">•</span>
+                <span className="text-lg">Match city names with their corresponding airport codes</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-lg">•</span>
+                <span className="text-lg">Choose from multiple possible airport codes</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-lg">•</span>
+                <span className="text-lg">Use hints to help identify the correct airport</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-lg">•</span>
+                <span className="text-lg">Get instant feedback on your answers</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-3 text-lg">•</span>
+                <span className="text-lg">Complete all rounds to test your knowledge</span>
+              </li>
+            </ul>
+          </div>
 
-        <div className="flex flex-col space-y-4">
-          <button 
-            onClick={() => navigate("/game")} 
-            className="nyt-button w-full max-w-xs mx-auto"
-          >
-            Start Normal Mode
-          </button>
-          
-          <button 
-            onClick={() => navigate("/hard-game")} 
-            className="nyt-button w-full max-w-xs mx-auto bg-red-600 hover:bg-red-700"
-          >
-            Start Hard Mode
-          </button>
+          <div className="flex flex-col space-y-4 max-w-md mx-auto pt-8">
+            <button 
+              onClick={() => navigate("/game")} 
+              className="apple-button"
+            >
+              Start Normal Mode
+            </button>
+            
+            <button 
+              onClick={() => navigate("/hard-game")} 
+              className="apple-button bg-red-600 hover:bg-red-700"
+            >
+              Start Hard Mode
+            </button>
+          </div>
         </div>
       </div>
     </div>

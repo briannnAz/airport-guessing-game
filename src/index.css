@@ -5,25 +5,25 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 0 0% 3%;
+    --radius: 0.75rem;
   }
 }
  
@@ -33,25 +33,25 @@
   }
   body {
     @apply bg-white text-foreground antialiased;
-    font-family: 'helvetica neue', arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: georgia, 'times new roman', times, serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   }
 }
 
-.nyt-button {
-  @apply bg-black text-white px-6 py-3 font-medium transition-colors duration-200 hover:bg-gray-800;
+.apple-button {
+  @apply bg-black text-white px-8 py-3 rounded-full font-medium transition-all duration-300 hover:bg-gray-800 text-sm tracking-wide;
 }
 
-.nyt-container {
-  @apply max-w-screen-sm mx-auto px-4;
+.apple-container {
+  @apply max-w-screen-lg mx-auto px-6;
 }
 
-.nyt-heading {
-  @apply font-serif text-4xl md:text-5xl font-bold text-gray-900;
+.apple-heading {
+  @apply text-5xl md:text-6xl font-semibold text-gray-900 tracking-tight;
 }
 
-.nyt-subheading {
-  @apply font-serif text-xl text-gray-700;
+.apple-subheading {
+  @apply text-xl md:text-2xl text-gray-500 font-light tracking-tight;
 }

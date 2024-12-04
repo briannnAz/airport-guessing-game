@@ -18,7 +18,7 @@ const AnswerOptions = ({
   disabledOptions = [],
 }: AnswerOptionsProps) => {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-3">
       {options.map((code, index) => {
         const isDisabled = disabledOptions.includes(code);
         return (
@@ -27,18 +27,18 @@ const AnswerOptions = ({
             onClick={() => onAnswer(code)}
             disabled={answered || isDisabled}
             className={`
-              p-4 rounded-lg text-center transition-all duration-200 w-full
+              px-6 py-4 rounded-xl text-center transition-all duration-300 text-lg
               ${answered
                 ? code === correctAnswer
                   ? 'bg-green-500 text-white'
                   : code === selectedAnswer
                   ? 'bg-red-500 text-white'
-                  : 'bg-gray-200 text-gray-500'
+                  : 'bg-gray-100 text-gray-400'
                 : isDisabled
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-white hover:bg-gray-50 active:bg-gray-100'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white hover:bg-gray-50 active:bg-gray-100 border border-gray-200'
               }
-              ${!answered && !isDisabled && 'hover:scale-105'}
+              ${!answered && !isDisabled && 'hover:scale-[1.02] shadow-sm'}
             `}
           >
             {code}
