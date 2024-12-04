@@ -22,6 +22,17 @@ export const fetchWikipediaData = async (pageTitle: string) => {
       'Amsterdam_Airport_Schiphol': 'Amsterdam',
     };
 
+    const nameMapping: { [key: string]: string } = {
+      'John_F._Kennedy_International_Airport': 'John F. Kennedy International Airport',
+      'Heathrow_Airport': 'Heathrow Airport',
+      'Charles_de_Gaulle_Airport': 'Charles de Gaulle Airport',
+      'Dubai_International_Airport': 'Dubai International Airport',
+      'Haneda_Airport': 'Haneda Airport',
+      'Singapore_Changi_Airport': 'Singapore Changi Airport',
+      'Los_Angeles_International_Airport': 'Los Angeles International Airport',
+      'Amsterdam_Airport_Schiphol': 'Amsterdam Airport Schiphol',
+    };
+
     return {
       code: airportData.find(a => a.wiki === pageTitle)?.code || '',
       city: cityMapping[pageTitle] || '',
@@ -29,6 +40,7 @@ export const fetchWikipediaData = async (pageTitle: string) => {
       province: 'Various',
       country: 'Various',
       continent: 'Various',
+      name: nameMapping[pageTitle] || pageTitle.replace(/_/g, ' '),
     };
   } catch (error) {
     console.error('Error fetching Wikipedia data:', error);
