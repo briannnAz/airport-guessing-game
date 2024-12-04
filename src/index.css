@@ -10,20 +10,20 @@
     --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
-    --primary: 0 0% 9%;
+    --primary: 225 67% 33%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary-foreground: 225 67% 33%;
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 225 67% 33%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 89%;
-    --input: 0 0% 89%;
-    --ring: 0 0% 3%;
-    --radius: 0.75rem;
+    --border: 225 67% 33%;
+    --input: 225 67% 33%;
+    --ring: 225 67% 33%;
+    --radius: 0.5rem;
   }
 }
  
@@ -32,16 +32,17 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-foreground antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    @apply font-medium;
   }
 }
 
 .apple-button {
-  @apply bg-black text-white px-8 py-3 rounded-full font-medium transition-all duration-300 hover:bg-gray-800 text-sm tracking-wide;
+  @apply bg-[#1B1F8C] text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-[#2C3199] text-sm tracking-wide shadow-md hover:shadow-lg;
 }
 
 .apple-container {
@@ -49,9 +50,9 @@
 }
 
 .apple-heading {
-  @apply text-5xl md:text-6xl font-semibold text-gray-900 tracking-tight;
+  @apply text-4xl md:text-5xl font-bold text-[#1B1F8C] tracking-tight;
 }
 
 .apple-subheading {
-  @apply text-xl md:text-2xl text-gray-500 font-light tracking-tight;
+  @apply text-xl md:text-2xl text-[#1B1F8C]/80 font-normal tracking-tight;
 }
