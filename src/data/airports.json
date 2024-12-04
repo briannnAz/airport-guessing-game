@@ -1,0 +1,39 @@
+{
+  "airports": [
+    {
+      "iata_code": "ATL",
+      "name": "Hartsfield-Jackson Atlanta International Airport",
+      "city": "Atlanta",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Hartsfield-Jackson_Atlanta_International_Airport"
+    },
+    {
+      "iata_code": "PEK",
+      "name": "Beijing Capital International Airport",
+      "city": "Beijing",
+      "country": "China",
+      "wiki_url": "https://en.wikipedia.org/wiki/Beijing_Capital_International_Airport"
+    },
+    {
+      "iata_code": "DXB",
+      "name": "Dubai International Airport",
+      "city": "Dubai",
+      "country": "United Arab Emirates",
+      "wiki_url": "https://en.wikipedia.org/wiki/Dubai_International_Airport"
+    },
+    {
+      "iata_code": "LAX",
+      "name": "Los Angeles International Airport",
+      "city": "Los Angeles",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Los_Angeles_International_Airport"
+    },
+    {
+      "iata_code": "HND",
+      "name": "Tokyo Haneda Airport",
+      "city": "Tokyo",
+      "country": "Japan",
+      "wiki_url": "https://en.wikipedia.org/wiki/Tokyo_International_Airport"
+    }
+  ]
+}

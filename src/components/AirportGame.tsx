@@ -82,10 +82,9 @@ const AirportGame = () => {
               } 
             });
           } else {
-            setGameState(prev => ({
-              ...prev,
-              currentQuestion: prev.currentQuestion + 1,
-            }));
+            updateGameState({
+              currentQuestion: gameState.currentQuestion + 1,
+            });
             setProgress(0);
           }
         }
@@ -102,10 +101,9 @@ const AirportGame = () => {
     const randomIncorrectOption = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
     
     setDisabledOptions([randomIncorrectOption]);
-    setGameState(prev => ({
-      ...prev,
+    updateGameState({
       hintUsed: true,
-    }));
+    });
 
     toast({
       title: "Hint Used",
