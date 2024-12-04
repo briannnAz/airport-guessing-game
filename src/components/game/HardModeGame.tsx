@@ -140,8 +140,7 @@ const HardModeGame = () => {
           description: "You've used all your attempts.",
           variant: "destructive",
         });
-        
-        setTimeout(() => handleGameEnd(0), 1500);
+        handleGameEnd(0); // Removed the delay here
       }
     }
     
