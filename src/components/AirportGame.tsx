@@ -22,6 +22,24 @@ interface GameState {
   currentAirport: Airport | null;
 }
 
+// Sample airport codes and their corresponding Wikipedia page titles
+const airportData = [
+  { code: 'JFK', wiki: 'John_F._Kennedy_International_Airport' },
+  { code: 'LHR', wiki: 'Heathrow_Airport' },
+  { code: 'CDG', wiki: 'Charles_de_Gaulle_Airport' },
+  { code: 'DXB', wiki: 'Dubai_International_Airport' },
+  { code: 'HND', wiki: 'Haneda_Airport' },
+  { code: 'SIN', wiki: 'Singapore_Changi_Airport' },
+  { code: 'LAX', wiki: 'Los_Angeles_International_Airport' },
+  { code: 'AMS', wiki: 'Amsterdam_Airport_Schiphol' },
+];
+
+const cityOptions = [
+  'New York', 'London', 'Paris', 'Dubai',
+  'Tokyo', 'Singapore', 'Los Angeles', 'Amsterdam',
+  'Frankfurt', 'Hong Kong', 'Seoul', 'Sydney'
+];
+
 const AirportGame = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -36,30 +54,70 @@ const AirportGame = () => {
     currentAirport: null,
   });
 
+  const fetchWikipediaData = async (pageTitle: string) => {
+    try {
+      // First, fetch the page content and extract location info
+      const contentUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=1&titles=${pageTitle}&origin=*`;
+      const contentResponse = await fetch(contentUrl);
+      const contentData = await contentResponse.json();
+      const pageId = Object.keys(contentData.query.pages)[0];
+      const extract = contentData.query.pages[pageId].extract;
+
+      // Then, fetch the page image
+      const imageUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${pageTitle}&pithumbsize=1000&origin=*`;
+      const imageResponse = await fetch(imageUrl);
+      const imageData = await imageResponse.json();
+      const image = imageData.query.pages[pageId].thumbnail?.source || 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05';
+
+      // Get the corresponding airport data
+      const airport = airportData.find(a => a.wiki === pageTitle);
+      const cityMapping: { [key: string]: string } = {
+        'John_F._Kennedy_International_Airport': 'New York',
+        'Heathrow_Airport': 'London',
+        'Charles_de_Gaulle_Airport': 'Paris',
+        'Dubai_International_Airport': 'Dubai',
+        'Haneda_Airport': 'Tokyo',
+        'Singapore_Changi_Airport': 'Singapore',
+        'Los_Angeles_International_Airport': 'Los Angeles',
+        'Amsterdam_Airport_Schiphol': 'Amsterdam',
+      };
+
+      return {
+        code: airport?.code || '',
+        city: cityMapping[pageTitle] || '',
+        image: image,
+        province: 'Various',
+        country: 'Various',
+        continent: 'Various',
+      };
+    } catch (error) {
+      console.error('Error fetching Wikipedia data:', error);
+      throw error;
+    }
+  };
+
+  const getRandomOptions = (correctCity: string) => {
+    const otherCities = cityOptions.filter(city => city !== correctCity);
+    const shuffled = otherCities.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 3);
+    const allOptions = [...selected, correctCity];
+    return allOptions.sort(() => 0.5 - Math.random());
+  };
+
   const fetchAirportData = async () => {
     try {
       setLoading(true);
-      // This is a mock API call - replace with your actual API endpoint
-      const response = await fetch('https://api.example.com/airports/random');
-      const data = await response.json();
+      // Get a random airport from our predefined list
+      const randomAirport = airportData[Math.floor(Math.random() * airportData.length)];
+      const airport = await fetchWikipediaData(randomAirport.wiki);
       
-      // Mock data structure for development
-      const mockAirport = {
-        code: 'JFK',
-        city: 'New York City',
-        image: 'https://images.unsplash.com/photo-1522083165195-3424ed129620',
-        province: 'New York',
-        country: 'United States',
-        continent: 'North America',
-      };
-
-      const mockOptions = ['New York City', 'London', 'Tokyo', 'Paris'];
+      const options = getRandomOptions(airport.city);
 
       setGameState(prev => ({
         ...prev,
-        currentAirport: mockAirport,
-        options: mockOptions,
-        correctAnswer: mockAirport.city,
+        currentAirport: airport,
+        options: options,
+        correctAnswer: airport.city,
         answered: false,
         selectedAnswer: null,
       }));
