@@ -1,6 +1,7 @@
 import React from 'react';
 import WrongAnswers from './WrongAnswers';
 import NextButton from './NextButton';
+import HintsList from './HintsList';
 
 interface GameFormProps {
   userInput: string;
@@ -8,6 +9,7 @@ interface GameFormProps {
   handleSubmit: (e: React.FormEvent) => void;
   answered: boolean;
   wrongAnswers: string[];
+  hints: string[];
   onNext: () => void;
   isLastQuestion: boolean;
 }
@@ -18,11 +20,14 @@ const GameForm = ({
   handleSubmit,
   answered,
   wrongAnswers,
+  hints,
   onNext,
   isLastQuestion,
 }: GameFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <HintsList hints={hints} />
+      
       <input
         type="text"
         value={userInput}

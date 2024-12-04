@@ -6,26 +6,17 @@ import { Plane } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import confetti from 'canvas-confetti';
 import GameForm from './GameForm';
+import { GameState, Hint } from './types';
 
 const TOTAL_QUESTIONS = 10;
 const MAX_POINTS_PER_QUESTION = 5;
-
-interface HardModeState {
-  currentQuestion: number;
-  totalScore: number;
-  currentAirport: any;
-  answered: boolean;
-  hintsUsed: number;
-  attempts: number;
-  wrongAnswers: string[];
-}
 
 const HardModeGame = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [userInput, setUserInput] = useState('');
-  const [gameState, setGameState] = useState<HardModeState>({
+  const [gameState, setGameState] = useState<GameState>({
     currentQuestion: 1,
     totalScore: 0,
     currentAirport: null,
@@ -33,9 +24,10 @@ const HardModeGame = () => {
     hintsUsed: 0,
     attempts: 0,
     wrongAnswers: [],
+    hints: [],
   });
 
-  const hints = [
+  const hints: Hint[] = [
     { type: 'continent', text: 'Continent: North America' },
     { type: 'country', text: (airport: any) => `Country: ${airport.country}` },
     { type: 'province', text: 'Province/State: USA' },
@@ -53,6 +45,7 @@ const HardModeGame = () => {
         attempts: 0,
         answered: false,
         wrongAnswers: [],
+        hints: [],
       }));
     } catch (error) {
       toast({
@@ -101,15 +94,16 @@ const HardModeGame = () => {
       ? currentHint.text(gameState.currentAirport)
       : currentHint.text;
 
+    setGameState(prev => ({
+      ...prev,
+      hintsUsed: prev.hintsUsed + 1,
+      hints: [...prev.hints, hintText],
+    }));
+
     toast({
       title: "Hint",
       description: hintText,
     });
-
-    setGameState(prev => ({
-      ...prev,
-      hintsUsed: prev.hintsUsed + 1,
-    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -194,6 +188,7 @@ const HardModeGame = () => {
             handleSubmit={handleSubmit}
             answered={gameState.answered}
             wrongAnswers={gameState.wrongAnswers}
+            hints={gameState.hints}
             onNext={handleNextQuestion}
             isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS}
           />
