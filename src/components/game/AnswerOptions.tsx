@@ -17,31 +17,9 @@ const AnswerOptions = ({
   correctAnswer,
   disabledOptions = [],
 }: AnswerOptionsProps) => {
-  const getOrderedOptions = () => {
-    if (!answered) {
-      // During gameplay, show enabled options first, then disabled ones
-      return [...options].sort((a, b) => {
-        const aDisabled = disabledOptions.includes(a);
-        const bDisabled = disabledOptions.includes(b);
-        if (aDisabled && !bDisabled) return 1;
-        if (!aDisabled && bDisabled) return -1;
-        return 0;
-      });
-    }
-    
-    // After answering, show correct answer first, then selected answer, then others
-    return [...options].sort((a, b) => {
-      if (a === correctAnswer) return -1;
-      if (b === correctAnswer) return 1;
-      if (a === selectedAnswer) return -1;
-      if (b === selectedAnswer) return 1;
-      return 0;
-    });
-  };
-
   return (
     <div className="flex flex-col space-y-4">
-      {getOrderedOptions().map((code, index) => {
+      {options.map((code, index) => {
         const isDisabled = disabledOptions.includes(code);
         return (
           <button
