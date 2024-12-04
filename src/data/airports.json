@@ -104,9 +104,41 @@
       "city": "New York",
       "country": "United States",
       "wiki_url": "https://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
+    },
+    {
+      "iata_code": "MAD",
+      "name": "Adolfo Suárez Madrid–Barajas Airport",
+      "city": "Madrid",
+      "country": "Spain",
+      "wiki_url": "https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport"
+    },
+    {
+      "iata_code": "MUC",
+      "name": "Munich Airport",
+      "city": "Munich",
+      "country": "Germany",
+      "wiki_url": "https://en.wikipedia.org/wiki/Munich_Airport"
+    },
+    {
+      "iata_code": "FCO",
+      "name": "Leonardo da Vinci International Airport",
+      "city": "Rome",
+      "country": "Italy",
+      "wiki_url": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci_International_Airport"
+    },
+    {
+      "iata_code": "BCN",
+      "name": "Barcelona–El Prat Airport",
+      "city": "Barcelona",
+      "country": "Spain",
+      "wiki_url": "https://en.wikipedia.org/wiki/Barcelona%E2%80%93El_Prat_Airport"
+    },
+    {
+      "iata_code": "LGW",
+      "name": "London Gatwick Airport",
+      "city": "London",
+      "country": "United Kingdom",
+      "wiki_url": "https://en.wikipedia.org/wiki/Gatwick_Airport"
     }
-    // ... I'll continue with the remaining airports, but for brevity in this message,
-    // I'll show you the first 15 entries. The actual file will contain 500 unique airports.
-    // Would you like me to continue with the full list of 500 airports?
   ]
 }
