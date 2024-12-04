@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import AnswerOptions from './game/AnswerOptions';
 import QuestionHeader from './game/QuestionHeader';
-import NextButton from './game/NextButton';
 import { fetchWikipediaData, airportData } from '../services/wikipediaService';
 import { Lightbulb } from 'lucide-react';
+import { Progress } from './ui/progress';
+import confetti from 'canvas-confetti';
 
 interface Airport {
   code: string;
@@ -14,6 +15,7 @@ interface Airport {
   province: string;
   country: string;
   continent: string;
+  name: string;
 }
 
 interface GameState {
@@ -25,14 +27,17 @@ interface GameState {
   options: string[];
   currentAirport: Airport | null;
   hintUsed: boolean;
+  usedCities: Set<string>;
 }
 
 const TOTAL_QUESTIONS = 10;
+const PROGRESS_DURATION = 5000; // 5 seconds
 
 const AirportGame = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
   const [gameState, setGameState] = useState<GameState>({
     currentQuestion: 1,
     score: 0,
@@ -42,6 +47,7 @@ const AirportGame = () => {
     options: [],
     currentAirport: null,
     hintUsed: false,
+    usedCities: new Set(),
   });
 
   const getRandomOptions = (correctCode: string) => {
@@ -57,8 +63,28 @@ const AirportGame = () => {
   const fetchAirportData = async () => {
     try {
       setLoading(true);
-      const randomIndex = Math.floor(Math.random() * airportData.length);
-      const randomAirport = airportData[randomIndex];
+      let randomAirport;
+      let attempts = 0;
+      const maxAttempts = 10;
+
+      do {
+        const randomIndex = Math.floor(Math.random() * airportData.length);
+        randomAirport = airportData[randomIndex];
+        attempts++;
+      } while (
+        gameState.usedCities.has(randomAirport.wiki) && 
+        attempts < maxAttempts
+      );
+
+      if (attempts >= maxAttempts) {
+        toast({
+          title: "Error",
+          description: "Unable to find a unique city. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const airport = await fetchWikipediaData(randomAirport.wiki);
       const options = getRandomOptions(airport.code);
 
@@ -70,6 +96,7 @@ const AirportGame = () => {
         answered: false,
         selectedAnswer: null,
         hintUsed: false,
+        usedCities: new Set([...prev.usedCities, randomAirport.wiki]),
       }));
     } catch (error) {
       toast({
@@ -85,6 +112,44 @@ const AirportGame = () => {
   useEffect(() => {
     fetchAirportData();
   }, [gameState.currentQuestion]);
+
+  useEffect(() => {
+    if (gameState.answered) {
+      let startTime = Date.now();
+      const interval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const newProgress = Math.min((elapsed / PROGRESS_DURATION) * 100, 100);
+        setProgress(newProgress);
+
+        if (newProgress >= 100) {
+          clearInterval(interval);
+          if (gameState.currentQuestion === TOTAL_QUESTIONS) {
+            if (gameState.score >= 7) {
+              confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0 }
+              });
+            }
+            navigate('/results', { 
+              state: { 
+                score: gameState.score,
+                total: TOTAL_QUESTIONS
+              } 
+            });
+          } else {
+            setGameState(prev => ({
+              ...prev,
+              currentQuestion: prev.currentQuestion + 1,
+            }));
+            setProgress(0);
+          }
+        }
+      }, 50);
+
+      return () => clearInterval(interval);
+    }
+  }, [gameState.answered]);
 
   const handleHint = () => {
     if (gameState.hintUsed || gameState.answered) return;
@@ -116,30 +181,16 @@ const AirportGame = () => {
       score: isCorrect ? prev.score + 1 : prev.score,
     }));
 
+    const airportName = gameState.currentAirport?.name || '';
+    const truncatedName = airportName.length > 30 ? airportName.substring(0, 30) + '...' : airportName;
+
     toast({
       title: isCorrect ? "Correct!" : "Incorrect",
       description: isCorrect 
-        ? `Well done! ${selectedCode} is the correct airport code for ${gameState.currentAirport?.city}.`
-        : `The correct answer was ${gameState.correctAnswer} (${gameState.currentAirport?.city}).`,
+        ? `Well done! ${selectedCode} is the correct airport code for ${gameState.currentAirport?.city} (${truncatedName})`
+        : `The correct answer was ${gameState.correctAnswer} (${gameState.currentAirport?.city} - ${truncatedName})`,
       variant: isCorrect ? "default" : "destructive",
     });
-  };
-
-  const handleNext = () => {
-    if (gameState.currentQuestion === TOTAL_QUESTIONS) {
-      navigate('/results', { 
-        state: { 
-          score: gameState.score,
-          total: TOTAL_QUESTIONS
-        } 
-      });
-      return;
-    }
-
-    setGameState(prev => ({
-      ...prev,
-      currentQuestion: prev.currentQuestion + 1,
-    }));
   };
 
   if (loading) {
@@ -153,6 +204,12 @@ const AirportGame = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
       <div className="w-full max-w-3xl">
+        {gameState.answered && (
+          <div className="mb-8">
+            <Progress value={progress} className="w-full h-2" />
+          </div>
+        )}
+
         <QuestionHeader 
           currentQuestion={gameState.currentQuestion}
           totalQuestions={TOTAL_QUESTIONS}
@@ -179,13 +236,6 @@ const AirportGame = () => {
             correctAnswer={gameState.correctAnswer}
           />
         </div>
-
-        {gameState.answered && (
-          <NextButton
-            onClick={handleNext}
-            isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS}
-          />
-        )}
       </div>
     </div>
   );
