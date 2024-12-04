@@ -11,13 +11,15 @@ const ResultsPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 animate-fade-in">
-      <div className="max-w-md w-full">
-        <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg text-center">
-          <h1 className="text-4xl font-bold mb-2">Game Complete!</h1>
-          <p className="text-gray-500 mb-8">Here's how you did</p>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="nyt-container">
+        <div className="bg-gray-50 p-8 text-center space-y-8">
+          <div className="border-b border-gray-300 pb-6">
+            <h1 className="nyt-heading mb-2">Game Complete</h1>
+            <p className="text-gray-500">Here's how you did</p>
+          </div>
           
-          <div className="text-6xl font-bold mb-8">
+          <div className="font-serif text-6xl font-bold mb-8">
             {score}/{total}
           </div>
           
@@ -33,7 +35,7 @@ const ResultsPage = () => {
 
           <button
             onClick={handlePlayAgain}
-            className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+            className="nyt-button w-full max-w-xs mx-auto"
           >
             Play Again
           </button>
