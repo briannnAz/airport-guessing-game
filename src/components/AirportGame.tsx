@@ -4,19 +4,18 @@ import { useToast } from '@/hooks/use-toast';
 import AnswerOptions from './game/AnswerOptions';
 import QuestionHeader from './game/QuestionHeader';
 import { getRandomAirport, getRandomAirportCodes } from '../services/airportService';
-import { Lightbulb } from 'lucide-react';
+import { Lightbulb, Plane } from 'lucide-react';
 import { Progress } from './ui/progress';
 import confetti from 'canvas-confetti';
 import { useGameLogic } from './game/GameLogic';
+import NextButton from './game/NextButton';
 
 const TOTAL_QUESTIONS = 10;
-const PROGRESS_DURATION = 5000;
 
 const AirportGame = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
   const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
   const { gameState, updateGameState } = useGameLogic();
 
@@ -43,7 +42,6 @@ const AirportGame = () => {
         usedCities: new Set([...gameState.usedCities, airport.wiki_url]),
       });
       
-      // Reset hint-related state
       setDisabledOptions([]);
     } catch (error) {
       toast({
@@ -60,42 +58,27 @@ const AirportGame = () => {
     fetchAirportData();
   }, [gameState.currentQuestion]);
 
-  useEffect(() => {
-    if (gameState.answered) {
-      let startTime = Date.now();
-      const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const newProgress = Math.min((elapsed / PROGRESS_DURATION) * 100, 100);
-        setProgress(newProgress);
-
-        if (newProgress >= 100) {
-          clearInterval(interval);
-          if (gameState.currentQuestion === TOTAL_QUESTIONS) {
-            if (gameState.score >= 7) {
-              confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0 }
-              });
-            }
-            navigate('/results', { 
-              state: { 
-                score: gameState.score,
-                total: TOTAL_QUESTIONS
-              } 
-            });
-          } else {
-            updateGameState({
-              currentQuestion: gameState.currentQuestion + 1,
-            });
-            setProgress(0);
-          }
-        }
-      }, 50);
-
-      return () => clearInterval(interval);
+  const handleNextQuestion = () => {
+    if (gameState.currentQuestion === TOTAL_QUESTIONS) {
+      if (gameState.score >= 7) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0 }
+        });
+      }
+      navigate('/results', { 
+        state: { 
+          score: gameState.score,
+          total: TOTAL_QUESTIONS
+        } 
+      });
+    } else {
+      updateGameState({
+        currentQuestion: gameState.currentQuestion + 1,
+      });
     }
-  }, [gameState.answered]);
+  };
 
   const handleHint = () => {
     if (gameState.hintUsed || gameState.answered) return;
@@ -113,12 +96,6 @@ const AirportGame = () => {
       description: "One incorrect option has been disabled.",
     });
   };
-
-  useEffect(() => {
-    if (!gameState.answered) {
-      setDisabledOptions([]);
-    }
-  }, [gameState.currentQuestion]);
 
   const handleAnswer = (selectedCode: string) => {
     if (gameState.answered) return;
@@ -150,15 +127,24 @@ const AirportGame = () => {
     );
   }
 
+  const progressPercentage = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <div className="w-full max-w-3xl">
-        {gameState.answered && (
-          <div className="mb-8">
-            <Progress value={progress} className="w-full h-2" />
+      <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-md">
+        <div className="w-full max-w-3xl mx-auto">
+          <div className="relative">
+            <Progress value={progressPercentage} className="w-full h-3" />
+            <Plane 
+              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
+              style={{ left: `${progressPercentage}%` }}
+              size={24}
+            />
           </div>
-        )}
+        </div>
+      </div>
 
+      <div className="w-full max-w-3xl mt-16">
         <QuestionHeader 
           currentQuestion={gameState.currentQuestion}
           totalQuestions={TOTAL_QUESTIONS}
@@ -185,6 +171,15 @@ const AirportGame = () => {
             correctAnswer={gameState.correctAnswer}
             disabledOptions={disabledOptions}
           />
+
+          {gameState.answered && (
+            <div className="mt-6">
+              <NextButton 
+                onClick={handleNextQuestion} 
+                isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS} 
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
