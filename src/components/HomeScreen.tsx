@@ -22,11 +22,15 @@ const HomeScreen = () => {
           <ul className="text-left space-y-4 text-gray-600">
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              You will be shown an airport code and an image of the airport
+              You will be shown a city name and need to match it to its airport code
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              Choose the correct city from four options
+              Choose from five possible airport codes
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2">•</span>
+              Use the lightbulb hint once per round to remove one incorrect answer
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
@@ -34,11 +38,7 @@ const HomeScreen = () => {
             </li>
             <li className="flex items-start">
               <span className="mr-2">•</span>
-              Complete 5 rounds to test your airport knowledge
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              See your final score at the end
+              Complete 10 rounds to test your airport knowledge
             </li>
           </ul>
         </div>

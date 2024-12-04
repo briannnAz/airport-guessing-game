@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import AirportImage from './game/AirportImage';
 import AnswerOptions from './game/AnswerOptions';
 import QuestionHeader from './game/QuestionHeader';
 import NextButton from './game/NextButton';
-import { fetchWikipediaData, airportData, cityOptions } from '../services/wikipediaService';
+import { fetchWikipediaData, airportData } from '../services/wikipediaService';
+import { Lightbulb } from 'lucide-react';
 
 interface Airport {
   code: string;
@@ -24,6 +24,7 @@ interface GameState {
   correctAnswer: string;
   options: string[];
   currentAirport: Airport | null;
+  hintUsed: boolean;
 }
 
 const TOTAL_QUESTIONS = 10;
@@ -40,6 +41,7 @@ const AirportGame = () => {
     correctAnswer: '',
     options: [],
     currentAirport: null,
+    hintUsed: false,
   });
 
   const getRandomOptions = (correctCode: string) => {
@@ -47,7 +49,7 @@ const AirportGame = () => {
       .map(airport => airport.code)
       .filter(code => code !== correctCode);
     const shuffled = otherCodes.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 3);
+    const selected = shuffled.slice(0, 4);
     const allOptions = [...selected, correctCode];
     return allOptions.sort(() => 0.5 - Math.random());
   };
@@ -55,7 +57,8 @@ const AirportGame = () => {
   const fetchAirportData = async () => {
     try {
       setLoading(true);
-      const randomAirport = airportData[Math.floor(Math.random() * airportData.length)];
+      const randomIndex = Math.floor(Math.random() * airportData.length);
+      const randomAirport = airportData[randomIndex];
       const airport = await fetchWikipediaData(randomAirport.wiki);
       const options = getRandomOptions(airport.code);
 
@@ -66,6 +69,7 @@ const AirportGame = () => {
         correctAnswer: airport.code,
         answered: false,
         selectedAnswer: null,
+        hintUsed: false,
       }));
     } catch (error) {
       toast({
@@ -81,6 +85,25 @@ const AirportGame = () => {
   useEffect(() => {
     fetchAirportData();
   }, [gameState.currentQuestion]);
+
+  const handleHint = () => {
+    if (gameState.hintUsed || gameState.answered) return;
+
+    const incorrectOptions = gameState.options.filter(code => code !== gameState.correctAnswer);
+    const randomIncorrectOption = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
+    const newOptions = gameState.options.filter(code => code !== randomIncorrectOption);
+
+    setGameState(prev => ({
+      ...prev,
+      options: newOptions,
+      hintUsed: true,
+    }));
+
+    toast({
+      title: "Hint Used",
+      description: "One incorrect option has been removed.",
+    });
+  };
 
   const handleAnswer = (selectedCode: string) => {
     if (gameState.answered) return;
@@ -137,11 +160,16 @@ const AirportGame = () => {
         />
 
         <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
-          <AirportImage
-            image={gameState.currentAirport?.image || ''}
-            answered={gameState.answered}
-            isCorrect={gameState.selectedAnswer === gameState.correctAnswer}
-          />
+          <div className="flex items-center justify-center mb-8">
+            <h2 className="text-2xl font-bold">{gameState.currentAirport?.city}</h2>
+            <button
+              onClick={handleHint}
+              disabled={gameState.hintUsed || gameState.answered}
+              className={`ml-3 transition-all duration-300 ${gameState.hintUsed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'} ${!gameState.hintUsed && !gameState.answered ? 'animate-pulse' : ''}`}
+            >
+              <Lightbulb className={`w-6 h-6 ${gameState.hintUsed ? 'text-gray-400' : 'text-yellow-500'}`} />
+            </button>
+          </div>
 
           <AnswerOptions
             options={gameState.options}

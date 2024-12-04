@@ -15,18 +15,18 @@ const AnswerOptions = ({
   selectedAnswer,
   correctAnswer,
 }: AnswerOptionsProps) => (
-  <div className="grid grid-cols-2 gap-4">
-    {options.map((city, index) => (
+  <div className="flex flex-col space-y-4">
+    {options.map((code, index) => (
       <button
         key={index}
-        onClick={() => onAnswer(city)}
+        onClick={() => onAnswer(code)}
         disabled={answered}
         className={`
-          p-4 rounded-lg text-center transition-all duration-200
+          p-4 rounded-lg text-center transition-all duration-200 w-full
           ${answered
-            ? city === correctAnswer
+            ? code === correctAnswer
               ? 'bg-green-500 text-white'
-              : city === selectedAnswer
+              : code === selectedAnswer
               ? 'bg-red-500 text-white'
               : 'bg-gray-100 text-gray-500'
             : 'bg-white hover:bg-gray-50 active:bg-gray-100'
@@ -34,7 +34,7 @@ const AnswerOptions = ({
           ${!answered && 'hover:scale-105'}
         `}
       >
-        {city}
+        {code}
       </button>
     ))}
   </div>
