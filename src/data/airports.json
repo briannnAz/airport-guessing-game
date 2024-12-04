@@ -272,6 +272,146 @@
       "city": "Montreal",
       "country": "Canada",
       "wiki_url": "https://en.wikipedia.org/wiki/Montréal–Trudeau_International_Airport"
+    },
+    {
+      "iata_code": "DFW",
+      "name": "Dallas/Fort Worth International Airport",
+      "city": "Dallas",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Dallas/Fort_Worth_International_Airport"
+    },
+    {
+      "iata_code": "DEN",
+      "name": "Denver International Airport",
+      "city": "Denver",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Denver_International_Airport"
+    },
+    {
+      "iata_code": "SEA",
+      "name": "Seattle-Tacoma International Airport",
+      "city": "Seattle",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Seattle–Tacoma_International_Airport"
+    },
+    {
+      "iata_code": "LAS",
+      "name": "Harry Reid International Airport",
+      "city": "Las Vegas",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Harry_Reid_International_Airport"
+    },
+    {
+      "iata_code": "PHX",
+      "name": "Phoenix Sky Harbor International Airport",
+      "city": "Phoenix",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport"
+    },
+    {
+      "iata_code": "MIA",
+      "name": "Miami International Airport",
+      "city": "Miami",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Miami_International_Airport"
+    },
+    {
+      "iata_code": "BOS",
+      "name": "Boston Logan International Airport",
+      "city": "Boston",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Logan_International_Airport"
+    },
+    {
+      "iata_code": "MSP",
+      "name": "Minneapolis–Saint Paul International Airport",
+      "city": "Minneapolis",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Minneapolis–Saint_Paul_International_Airport"
+    },
+    {
+      "iata_code": "DTW",
+      "name": "Detroit Metropolitan Wayne County Airport",
+      "city": "Detroit",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Detroit_Metropolitan_Airport"
+    },
+    {
+      "iata_code": "PHL",
+      "name": "Philadelphia International Airport",
+      "city": "Philadelphia",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Philadelphia_International_Airport"
+    },
+    {
+      "iata_code": "CLT",
+      "name": "Charlotte Douglas International Airport",
+      "city": "Charlotte",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Charlotte_Douglas_International_Airport"
+    },
+    {
+      "iata_code": "SFO",
+      "name": "San Francisco International Airport",
+      "city": "San Francisco",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+    },
+    {
+      "iata_code": "IAH",
+      "name": "George Bush Intercontinental Airport",
+      "city": "Houston",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/George_Bush_Intercontinental_Airport"
+    },
+    {
+      "iata_code": "EWR",
+      "name": "Newark Liberty International Airport",
+      "city": "Newark",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Newark_Liberty_International_Airport"
+    },
+    {
+      "iata_code": "MCO",
+      "name": "Orlando International Airport",
+      "city": "Orlando",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Orlando_International_Airport"
+    },
+    {
+      "iata_code": "IAD",
+      "name": "Washington Dulles International Airport",
+      "city": "Washington",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Washington_Dulles_International_Airport"
+    },
+    {
+      "iata_code": "SLC",
+      "name": "Salt Lake City International Airport",
+      "city": "Salt Lake City",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Salt_Lake_City_International_Airport"
+    },
+    {
+      "iata_code": "MDW",
+      "name": "Chicago Midway International Airport",
+      "city": "Chicago",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Chicago_Midway_International_Airport"
+    },
+    {
+      "iata_code": "DCA",
+      "name": "Ronald Reagan Washington National Airport",
+      "city": "Washington",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Ronald_Reagan_Washington_National_Airport"
+    },
+    {
+      "iata_code": "PDX",
+      "name": "Portland International Airport",
+      "city": "Portland",
+      "country": "United States",
+      "wiki_url": "https://en.wikipedia.org/wiki/Portland_International_Airport"
     }
   ]
 }
