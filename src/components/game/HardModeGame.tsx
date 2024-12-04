@@ -31,6 +31,7 @@ const HardModeGame = () => {
     { type: 'country', text: (airport: any) => `Country: ${airport.country}` },
     { type: 'province', text: 'Province/State: USA' },
     { type: 'code', text: (airport: any) => `First letter of code: ${airport.iata_code[0]}` },
+    { type: 'name', text: (airport: any) => `Airport name contains: ${airport.name.split(' ')[0]}` }
   ];
 
   const fetchAirportData = async () => {
@@ -88,7 +89,7 @@ const HardModeGame = () => {
     }));
 
     toast({
-      title: "Hint",
+      title: "New Hint",
       description: hintText,
     });
   };
@@ -113,7 +114,7 @@ const HardModeGame = () => {
         description: `You earned ${pointsEarned} points!`,
       });
       
-      setTimeout(() => handleGameEnd(pointsEarned), 1500);
+      handleGameEnd(pointsEarned);
     } else {
       const newAttempts = gameState.attempts + 1;
       const remainingAttempts = MAX_ATTEMPTS - newAttempts;
@@ -125,22 +126,20 @@ const HardModeGame = () => {
       }));
       
       if (remainingAttempts > 0) {
+        showHint();
+        
         toast({
           title: "Incorrect",
           description: `Try again! ${remainingAttempts} attempts remaining.`,
           variant: "destructive",
         });
-        
-        if (!gameState.hintsUsed) {
-          showHint();
-        }
       } else {
         toast({
           title: "Game Over",
           description: "You've used all your attempts.",
           variant: "destructive",
         });
-        handleGameEnd(0); // Removed the delay here
+        handleGameEnd(0);
       }
     }
     
