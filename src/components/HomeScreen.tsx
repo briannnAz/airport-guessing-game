@@ -43,12 +43,21 @@ const HomeScreen = () => {
           </ul>
         </div>
 
-        <button 
-          onClick={() => navigate("/game")} 
-          className="nyt-button w-full max-w-xs mx-auto"
-        >
-          Start Game
-        </button>
+        <div className="flex flex-col space-y-4">
+          <button 
+            onClick={() => navigate("/game")} 
+            className="nyt-button w-full max-w-xs mx-auto"
+          >
+            Start Normal Mode
+          </button>
+          
+          <button 
+            onClick={() => navigate("/hard-game")} 
+            className="nyt-button w-full max-w-xs mx-auto bg-red-600 hover:bg-red-700"
+          >
+            Start Hard Mode
+          </button>
+        </div>
       </div>
     </div>
   );
