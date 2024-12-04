@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Plane } from 'lucide-react';
-import { Progress } from '../ui/progress';
-import GameForm from './GameForm';
 import { useToast } from '@/hooks/use-toast';
 import { getRandomAirport } from '@/services/airportService';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { GameState, Hint } from './types';
+import GameForm from './GameForm';
+import HardModeHeader from './HardModeHeader';
 
-const TOTAL_QUESTIONS = 10;
-const MAX_POINTS_PER_QUESTION = 5;
+const MAX_POINTS = 5;
 const MAX_ATTEMPTS = 5;
 
 const HardModeGame = () => {
@@ -59,29 +57,20 @@ const HardModeGame = () => {
     }
   };
 
-  const handleNextQuestion = () => {
-    if (gameState.currentQuestion === TOTAL_QUESTIONS) {
-      if (gameState.totalScore >= (TOTAL_QUESTIONS * MAX_POINTS_PER_QUESTION * 0.7)) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
-      navigate('/hard-results', { 
-        state: { 
-          score: gameState.totalScore,
-          maxScore: TOTAL_QUESTIONS * MAX_POINTS_PER_QUESTION
-        } 
+  const handleGameEnd = (score: number) => {
+    if (score >= (MAX_POINTS * 0.7)) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
       });
-    } else {
-      setGameState(prev => ({
-        ...prev,
-        currentQuestion: prev.currentQuestion + 1,
-      }));
-      setUserInput('');
-      fetchAirportData();
     }
+    navigate('/hard-results', { 
+      state: { 
+        score: score,
+        maxScore: MAX_POINTS
+      } 
+    });
   };
 
   const showHint = () => {
@@ -112,7 +101,7 @@ const HardModeGame = () => {
     const isCorrect = userInput.toUpperCase() === gameState.currentAirport.iata_code;
     
     if (isCorrect) {
-      const pointsEarned = Math.max(MAX_POINTS_PER_QUESTION - gameState.attempts, 1);
+      const pointsEarned = Math.max(MAX_POINTS - gameState.attempts, 1);
       setGameState(prev => ({
         ...prev,
         answered: true,
@@ -124,7 +113,7 @@ const HardModeGame = () => {
         description: `You earned ${pointsEarned} points!`,
       });
       
-      setTimeout(handleNextQuestion, 1500);
+      setTimeout(() => handleGameEnd(pointsEarned), 1500);
     } else {
       const newAttempts = gameState.attempts + 1;
       const remainingAttempts = MAX_ATTEMPTS - newAttempts;
@@ -148,11 +137,11 @@ const HardModeGame = () => {
       } else {
         toast({
           title: "Game Over",
-          description: "You've used all your attempts. Moving to next question.",
+          description: "You've used all your attempts.",
           variant: "destructive",
         });
         
-        setTimeout(handleNextQuestion, 1500);
+        setTimeout(() => handleGameEnd(0), 1500);
       }
     }
     
@@ -171,45 +160,20 @@ const HardModeGame = () => {
     );
   }
 
-  const progressPercentage = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-md">
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="relative">
-            <Progress value={progressPercentage} className="w-full h-3" />
-            <Plane 
-              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
-              style={{ left: `${progressPercentage}%` }}
-              size={24}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full max-w-3xl mt-16">
-        <div className="text-sm font-light mb-8 text-center">
-          Question {gameState.currentQuestion} of {TOTAL_QUESTIONS}
-        </div>
-
-        <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-2">{gameState.currentAirport?.city}</h2>
-            <p className="text-sm text-gray-500">Guess the airport code</p>
-          </div>
-
-          <GameForm
-            userInput={userInput}
-            setUserInput={setUserInput}
-            handleSubmit={handleSubmit}
-            answered={gameState.answered}
-            wrongAnswers={gameState.wrongAnswers}
-            hints={gameState.hints}
-            onNext={handleNextQuestion}
-            isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS}
-          />
-        </div>
+      <HardModeHeader city={gameState.currentAirport?.city} />
+      <div className="w-full max-w-3xl">
+        <GameForm
+          userInput={userInput}
+          setUserInput={setUserInput}
+          handleSubmit={handleSubmit}
+          answered={gameState.answered}
+          wrongAnswers={gameState.wrongAnswers}
+          hints={gameState.hints}
+          onNext={() => {}}
+          isLastQuestion={true}
+        />
       </div>
     </div>
   );
