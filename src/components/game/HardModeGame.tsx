@@ -5,7 +5,7 @@ import { getRandomAirport } from '@/services/airportService';
 import { Plane } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import confetti from 'canvas-confetti';
-import NextButton from './NextButton';
+import GameForm from './GameForm';
 
 const TOTAL_QUESTIONS = 10;
 const MAX_POINTS_PER_QUESTION = 5;
@@ -17,6 +17,7 @@ interface HardModeState {
   answered: boolean;
   hintsUsed: number;
   attempts: number;
+  wrongAnswers: string[];
 }
 
 const HardModeGame = () => {
@@ -31,6 +32,7 @@ const HardModeGame = () => {
     answered: false,
     hintsUsed: 0,
     attempts: 0,
+    wrongAnswers: [],
   });
 
   const hints = [
@@ -50,6 +52,7 @@ const HardModeGame = () => {
         hintsUsed: 0,
         attempts: 0,
         answered: false,
+        wrongAnswers: [],
       }));
     } catch (error) {
       toast({
@@ -132,6 +135,7 @@ const HardModeGame = () => {
       setGameState(prev => ({
         ...prev,
         attempts: prev.attempts + 1,
+        wrongAnswers: [...prev.wrongAnswers, userInput.toUpperCase()],
       }));
       
       toast({
@@ -184,45 +188,15 @@ const HardModeGame = () => {
             <p className="text-sm text-gray-500">Guess the airport code</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Enter airport code (e.g., LAX)"
-              className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              maxLength={3}
-              disabled={gameState.answered}
-            />
-            
-            {!gameState.answered && (
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200"
-                >
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  onClick={showHint}
-                  disabled={gameState.hintsUsed >= hints.length}
-                  className="px-6 py-4 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Hint
-                </button>
-              </div>
-            )}
-          </form>
-
-          {gameState.answered && (
-            <div className="mt-6">
-              <NextButton 
-                onClick={handleNextQuestion} 
-                isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS} 
-              />
-            </div>
-          )}
+          <GameForm
+            userInput={userInput}
+            setUserInput={setUserInput}
+            handleSubmit={handleSubmit}
+            answered={gameState.answered}
+            wrongAnswers={gameState.wrongAnswers}
+            onNext={handleNextQuestion}
+            isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS}
+          />
         </div>
       </div>
     </div>
