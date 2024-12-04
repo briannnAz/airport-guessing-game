@@ -38,6 +38,7 @@ const AirportGame = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({
     currentQuestion: 1,
     score: 0,
@@ -156,19 +157,24 @@ const AirportGame = () => {
 
     const incorrectOptions = gameState.options.filter(code => code !== gameState.correctAnswer);
     const randomIncorrectOption = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
-    const newOptions = gameState.options.filter(code => code !== randomIncorrectOption);
-
+    
+    setDisabledOptions([randomIncorrectOption]);
     setGameState(prev => ({
       ...prev,
-      options: newOptions,
       hintUsed: true,
     }));
 
     toast({
       title: "Hint Used",
-      description: "One incorrect option has been removed.",
+      description: "One incorrect option has been disabled.",
     });
   };
+
+  useEffect(() => {
+    if (!gameState.answered) {
+      setDisabledOptions([]);
+    }
+  }, [gameState.currentQuestion]);
 
   const handleAnswer = (selectedCode: string) => {
     if (gameState.answered) return;
@@ -234,6 +240,7 @@ const AirportGame = () => {
             answered={gameState.answered}
             selectedAnswer={gameState.selectedAnswer}
             correctAnswer={gameState.correctAnswer}
+            disabledOptions={disabledOptions}
           />
         </div>
       </div>
