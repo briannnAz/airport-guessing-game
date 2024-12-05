@@ -94,7 +94,7 @@ const AirportGame = () => {
     toast({
       title: "Hint Used",
       description: "One incorrect option has been disabled.",
-      className: "w-[600px] bg-white/90 border-none text-center mx-auto absolute top-24 left-1/2 -translate-x-1/2",
+      className: "w-[600px] bg-white/90 border-none text-center mx-auto absolute top-4 left-1/2 -translate-x-1/2",
     });
   };
 
@@ -117,7 +117,7 @@ const AirportGame = () => {
         ? `Well done! ${selectedCode} is the correct airport code for ${gameState.currentAirport?.city}`
         : `The correct answer was ${gameState.correctAnswer} (${gameState.currentAirport?.city})`,
       variant: isCorrect ? "default" : "destructive",
-      className: "w-[600px] bg-white/90 border-none text-center mx-auto absolute top-24 left-1/2 -translate-x-1/2",
+      className: "w-[600px] bg-white/90 border-none text-center mx-auto absolute top-4 left-1/2 -translate-x-1/2",
     });
   };
 
