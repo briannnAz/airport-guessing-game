@@ -131,25 +131,23 @@ const AirportGame = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-md">
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="relative">
-            <Progress value={progressPercentage} className="w-full h-3" />
-            <Plane 
-              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
-              style={{ left: `${progressPercentage}%` }}
-              size={24}
-            />
-          </div>
-        </div>
-      </div>
-
       <div className="w-full max-w-3xl mt-16">
         <QuestionHeader 
           currentQuestion={gameState.currentQuestion}
           totalQuestions={TOTAL_QUESTIONS}
           city={gameState.currentAirport?.city || ''}
         />
+
+        <div className="w-full max-w-3xl mb-4">
+          <div className="relative">
+            <Progress value={progressPercentage} className="w-full h-3" />
+            <Plane 
+              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500 rotate-45"
+              style={{ left: `${progressPercentage}%` }}
+              size={24}
+            />
+          </div>
+        </div>
 
         <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
           <div className="flex items-center justify-center mb-8">
