@@ -4,26 +4,26 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 240 33% 98%;
+    --foreground: 240 33% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 240 33% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 225 67% 33%;
+    --popover-foreground: 240 33% 15%;
+    --primary: 240 33% 33%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 225 67% 33%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 225 67% 33%;
+    --secondary: 240 33% 96%;
+    --secondary-foreground: 240 33% 33%;
+    --muted: 240 33% 96%;
+    --muted-foreground: 240 33% 45%;
+    --accent: 240 33% 33%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 225 67% 33%;
-    --input: 225 67% 33%;
-    --ring: 225 67% 33%;
-    --radius: 0.5rem;
+    --border: 240 33% 90%;
+    --input: 240 33% 90%;
+    --ring: 240 33% 33%;
+    --radius: 1rem;
   }
 }
  
@@ -33,26 +33,44 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    @apply font-medium;
+    @apply font-bold text-primary;
   }
 }
 
-.apple-button {
-  @apply bg-[#1B1F8C] text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-[#2C3199] text-sm tracking-wide shadow-md hover:shadow-lg;
+.game-container {
+  @apply max-w-md mx-auto bg-white rounded-3xl shadow-lg p-6;
 }
 
-.apple-container {
-  @apply max-w-screen-lg mx-auto px-6;
+.game-header {
+  @apply flex items-center justify-between mb-8;
 }
 
-.apple-heading {
-  @apply text-4xl md:text-5xl font-bold text-[#1B1F8C] tracking-tight;
+.game-progress {
+  @apply text-center text-sm text-gray-500 mb-4;
 }
 
-.apple-subheading {
-  @apply text-xl md:text-2xl text-[#1B1F8C]/80 font-normal tracking-tight;
+.game-title {
+  @apply text-4xl font-bold text-primary text-center mb-6;
+}
+
+.game-button {
+  @apply w-full py-4 px-6 rounded-xl text-center transition-all duration-300
+         bg-white border border-gray-200 shadow-sm
+         hover:bg-gray-50 active:bg-gray-100
+         disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed;
+}
+
+.game-input {
+  @apply w-full p-4 rounded-xl border-2 border-primary/20
+         focus:outline-none focus:ring-2 focus:ring-primary/20
+         text-lg transition-all duration-300 bg-white text-primary
+         placeholder:text-primary/40;
+}
+
+.game-hint {
+  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-full
+         bg-secondary text-primary/80 text-sm;
 }

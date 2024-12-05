@@ -27,18 +27,15 @@ const AnswerOptions = ({
             onClick={() => onAnswer(code)}
             disabled={answered || isDisabled}
             className={`
-              px-6 py-4 rounded-xl text-center transition-all duration-300 text-lg
+              game-button
               ${answered
                 ? code === correctAnswer
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-green-500 text-white border-green-500'
                   : code === selectedAnswer
-                  ? 'bg-red-500 text-white'
-                  : 'bg-gray-100 text-gray-400'
-                : isDisabled
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white hover:bg-gray-50 active:bg-gray-100 border border-gray-200'
-              }
-              ${!answered && !isDisabled && 'hover:scale-[1.02] shadow-sm'}
+                  ? 'bg-red-500 text-white border-red-500'
+                  : 'bg-gray-100 text-gray-400 border-gray-200'
+                : ''}
+              ${!answered && !isDisabled ? 'hover:scale-[1.02]' : ''}
             `}
           >
             {code}
