@@ -141,11 +141,12 @@ const AirportGame = () => {
         <div className="w-full max-w-3xl mb-4">
           <div className="relative">
             <Progress value={progressPercentage} className="w-full h-3" />
-            <Plane 
-              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500 rotate-45"
+            <div 
+              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
               style={{ left: `${progressPercentage}%` }}
-              size={24}
-            />
+            >
+              <Plane className="rotate-45" size={24} />
+            </div>
           </div>
         </div>
 
