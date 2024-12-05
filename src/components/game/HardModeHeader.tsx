@@ -6,25 +6,11 @@ interface HardModeHeaderProps {
 
 const HardModeHeader = ({ city }: HardModeHeaderProps) => {
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="game-container">
-        <div className="game-header">
-          <button className="text-gray-400 hover:text-gray-600">
-            <span className="sr-only">Close</span>
-            ×
-          </button>
-          <div className="flex gap-2">
-            <button className="px-4 py-1 rounded-full bg-primary text-white">EASY</button>
-            <button className="px-4 py-1 rounded-full bg-gray-200">HARD</button>
-          </div>
-          <button className="text-gray-400 hover:text-gray-600">
-            <span className="sr-only">Help</span>
-            ?
-          </button>
-        </div>
+    <div className="w-full max-w-3xl mt-16">
+      <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
         <div className="text-center mb-8">
-          <div className="game-progress">2/10</div>
-          <h2 className="game-title">{city}</h2>
+          <h2 className="text-4xl font-bold mb-2">{city}</h2>
+          <p className="text-sm text-gray-500">Guess the airport code</p>
         </div>
       </div>
     </div>
