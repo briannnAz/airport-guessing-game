@@ -1,7 +1,7 @@
 import React from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getGameHistory, getStreak, getAverageScore, GameScore } from '@/utils/gameHistory';
+import { getGameHistory, getStreak, getAverageScore } from '@/utils/gameHistory';
 import { format, parseISO } from 'date-fns';
 
 interface GameStatsProps {
@@ -20,7 +20,7 @@ const GameStats = ({ mode, singleDay = false }: GameStatsProps) => {
     );
   };
 
-  const modifierStyles = {
+  const modifierClassNames = {
     hasScore: "bg-primary text-primary-foreground rounded-md",
   };
 
@@ -48,7 +48,7 @@ const GameStats = ({ mode, singleDay = false }: GameStatsProps) => {
           modifiers={{
             hasScore: (date) => !!getScoreForDay(date, gameMode),
           }}
-          modifiersStyles={modifierStyles}
+          modifiersClassNames={modifierClassNames}
           className="rounded-md border"
         />
 
