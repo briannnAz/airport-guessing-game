@@ -12,9 +12,15 @@ export const saveGameScore = (score: number, total: number, mode: 'normal' | 'ha
   const today = new Date().toISOString();
   
   // Only save if it's the best score for the day
-  const todayScore = history.find(h => isSameDay(parseISO(h.date), parseISO(today)));
+  const todayScore = history.find(h => 
+    h.mode === mode && 
+    isSameDay(parseISO(h.date), parseISO(today))
+  );
+  
   if (!todayScore || (todayScore && (score / total) > (todayScore.score / todayScore.total))) {
-    const newHistory = history.filter(h => !isSameDay(parseISO(h.date), parseISO(today)));
+    const newHistory = history.filter(h => 
+      !(h.mode === mode && isSameDay(parseISO(h.date), parseISO(today)))
+    );
     newHistory.push({ date: today, score, total, mode });
     localStorage.setItem('gameHistory', JSON.stringify(newHistory));
   }
@@ -31,7 +37,7 @@ export const getStreak = (mode: 'normal' | 'hard'): number => {
   if (modeHistory.length === 0) return 0;
 
   let streak = 0;
-  let currentDate = new Date();
+  let currentDate = startOfDay(new Date());
   
   while (true) {
     const hasGameForDay = modeHistory.some(h => 
@@ -52,8 +58,8 @@ export const getAverageScore = (mode: 'normal' | 'hard'): number => {
   if (history.length === 0) return 0;
   
   const totalPercentage = history.reduce((acc, curr) => 
-    acc + (curr.score / curr.total), 0
+    acc + ((curr.score / curr.total) * 100), 0
   );
   
-  return Number((totalPercentage / history.length * 100).toFixed(1));
+  return Number((totalPercentage / history.length).toFixed(1));
 };
