@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GameStats from "./GameStats";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
+  const [statsOpen, setStatsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#fbfbfd]">
@@ -58,6 +61,17 @@ const HomeScreen = () => {
             >
               Start Hard Mode
             </button>
+
+            <Dialog open={statsOpen} onOpenChange={setStatsOpen}>
+              <DialogTrigger asChild>
+                <button className="apple-button bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                  View Game Stats
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px]">
+                <GameStats />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
