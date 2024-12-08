@@ -1,0 +1,17 @@
+{
+  "query": {
+    "pages": {
+      "18943201": {
+        "pageid": 18943201,
+        "ns": 0,
+        "title": "Hartsfield-Jackson Atlanta International Airport",
+        "extract": "Hartsfield-Jackson Atlanta International Airport, also known as Atlanta Hartsfield-Jackson International Airport, Atlanta Airport, Hartsfield, or Hartsfield-Jackson, is the primary international airport serving Atlanta, Georgia, United States. It is located approximately 7 miles (11 km) south of the Downtown Atlanta district. The airport is named after former Atlanta mayors William B. Hartsfield and Maynard Jackson.",
+        "thumbnail": {
+          "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Atlanta_Airport_Aerial_Angle.jpg/500px-Atlanta_Airport_Aerial_Angle.jpg",
+          "width": 500,
+          "height": 333
+        }
+      }
+    }
+  }
+}

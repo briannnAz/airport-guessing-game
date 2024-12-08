@@ -5,10 +5,6 @@
       "name": "Hartsfield-Jackson Atlanta International Airport",
       "city": "Atlanta",
       "country": "United States",
-      "location": {
-        "latitude": 33.6367,
-        "longitude": -84.4281
-      },
       "wiki_url": "https://en.wikipedia.org/wiki/Hartsfield-Jackson_Atlanta_International_Airport"
     },
     {
@@ -16,10 +12,6 @@
       "name": "Beijing Capital International Airport",
       "city": "Beijing",
       "country": "China",
-      "location": {
-        "latitude": 40.0799,
-        "longitude": 116.6031
-      },
       "wiki_url": "https://en.wikipedia.org/wiki/Beijing_Capital_International_Airport"
     },
     {
@@ -27,10 +19,6 @@
       "name": "London Heathrow Airport",
       "city": "London",
       "country": "United Kingdom",
-      "location": {
-        "latitude": 51.4700,
-        "longitude": -0.4543
-      },
       "wiki_url": "https://en.wikipedia.org/wiki/Heathrow_Airport"
     }
   ]
