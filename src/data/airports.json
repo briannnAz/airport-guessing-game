@@ -20,6 +20,13 @@
       "city": "London",
       "country": "United Kingdom",
       "wiki_url": "https://en.wikipedia.org/wiki/Heathrow_Airport"
+    },
+    {
+      "iata_code": "CDG",
+      "name": "Charles de Gaulle Airport",
+      "city": "Paris",
+      "country": "France",
+      "wiki_url": "https://en.wikipedia.org/wiki/Charles_de_Gaulle_Airport"
     }
   ]
 }
