@@ -6,6 +6,10 @@ export interface Airport {
   name: string;
   city: string;
   country: string;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
   wiki_url: string;
 }
 
