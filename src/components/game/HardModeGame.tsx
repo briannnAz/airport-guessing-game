@@ -6,6 +6,7 @@ import confetti from 'canvas-confetti';
 import { GameState, Hint } from './types';
 import GameForm from './GameForm';
 import HardModeHeader from './HardModeHeader';
+import Header from '../Header';
 
 const MAX_POINTS = 5;
 const MAX_ATTEMPTS = 5;
@@ -146,6 +147,19 @@ const HardModeGame = () => {
     setUserInput('');
   };
 
+  const handleEndGame = () => {
+    setGameState({
+      currentQuestion: 1,
+      totalScore: 0,
+      currentAirport: null,
+      answered: false,
+      hintsUsed: 0,
+      attempts: 0,
+      wrongAnswers: [],
+      hints: [],
+    });
+  };
+
   useEffect(() => {
     fetchAirportData();
   }, []);
@@ -159,21 +173,24 @@ const HardModeGame = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <HardModeHeader city={gameState.currentAirport?.city} />
-      <div className="w-full max-w-3xl">
-        <GameForm
-          userInput={userInput}
-          setUserInput={setUserInput}
-          handleSubmit={handleSubmit}
-          answered={gameState.answered}
-          wrongAnswers={gameState.wrongAnswers}
-          hints={gameState.hints}
-          onNext={() => {}}
-          isLastQuestion={true}
-        />
+    <>
+      <Header onHomeClick={handleEndGame} />
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
+        <HardModeHeader city={gameState.currentAirport?.city} />
+        <div className="w-full max-w-3xl">
+          <GameForm
+            userInput={userInput}
+            setUserInput={setUserInput}
+            handleSubmit={handleSubmit}
+            answered={gameState.answered}
+            wrongAnswers={gameState.wrongAnswers}
+            hints={gameState.hints}
+            onNext={() => {}}
+            isLastQuestion={true}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

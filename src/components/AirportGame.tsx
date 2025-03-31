@@ -9,6 +9,7 @@ import { Progress } from './ui/progress';
 import confetti from 'canvas-confetti';
 import { useGameLogic } from './game/GameLogic';
 import NextButton from './game/NextButton';
+import Header from './Header';
 
 const TOTAL_QUESTIONS = 10;
 
@@ -119,6 +120,14 @@ const AirportGame = () => {
     });
   };
 
+  const handleEndGame = () => {
+    updateGameState({
+      currentQuestion: 1,
+      score: 0,
+      usedCities: new Set(),
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -130,58 +139,61 @@ const AirportGame = () => {
   const progressPercentage = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <div className="w-full max-w-3xl mt-16">
-        <QuestionHeader 
-          currentQuestion={gameState.currentQuestion}
-          totalQuestions={TOTAL_QUESTIONS}
-          city={gameState.currentAirport?.city || ''}
-        />
-
-        <div className="w-full max-w-3xl mb-4">
-          <div className="relative">
-            <Progress value={progressPercentage} className="w-full h-3" />
-            <div 
-              className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
-              style={{ left: `${progressPercentage}%` }}
-            >
-              <Plane className="rotate-45" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
-          <div className="flex items-center justify-center mb-8">
-            <h2 className="text-2xl font-bold">{gameState.currentAirport?.city}</h2>
-            <button
-              onClick={handleHint}
-              disabled={gameState.hintUsed || gameState.answered}
-              className={`ml-3 transition-all duration-300 ${gameState.hintUsed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'} ${!gameState.hintUsed && !gameState.answered ? 'animate-pulse' : ''}`}
-            >
-              <Lightbulb className={`w-6 h-6 ${gameState.hintUsed ? 'text-gray-400' : 'text-yellow-500'}`} />
-            </button>
-          </div>
-
-          <AnswerOptions
-            options={gameState.options}
-            onAnswer={handleAnswer}
-            answered={gameState.answered}
-            selectedAnswer={gameState.selectedAnswer}
-            correctAnswer={gameState.correctAnswer}
-            disabledOptions={disabledOptions}
+    <>
+      <Header onHomeClick={handleEndGame} />
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
+        <div className="w-full max-w-3xl mt-16">
+          <QuestionHeader 
+            currentQuestion={gameState.currentQuestion}
+            totalQuestions={TOTAL_QUESTIONS}
+            city={gameState.currentAirport?.city || ''}
           />
 
-          {gameState.answered && (
-            <div className="mt-6">
-              <NextButton 
-                onClick={handleNextQuestion} 
-                isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS} 
-              />
+          <div className="w-full max-w-3xl mb-4">
+            <div className="relative">
+              <Progress value={progressPercentage} className="w-full h-3" />
+              <div 
+                className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
+                style={{ left: `${progressPercentage}%` }}
+              >
+                <Plane className="rotate-45" size={24} />
+              </div>
             </div>
-          )}
+          </div>
+
+          <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
+            <div className="flex items-center justify-center mb-8">
+              <h2 className="text-2xl font-bold">{gameState.currentAirport?.city}</h2>
+              <button
+                onClick={handleHint}
+                disabled={gameState.hintUsed || gameState.answered}
+                className={`ml-3 transition-all duration-300 ${gameState.hintUsed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'} ${!gameState.hintUsed && !gameState.answered ? 'animate-pulse' : ''}`}
+              >
+                <Lightbulb className={`w-6 h-6 ${gameState.hintUsed ? 'text-gray-400' : 'text-yellow-500'}`} />
+              </button>
+            </div>
+
+            <AnswerOptions
+              options={gameState.options}
+              onAnswer={handleAnswer}
+              answered={gameState.answered}
+              selectedAnswer={gameState.selectedAnswer}
+              correctAnswer={gameState.correctAnswer}
+              disabledOptions={disabledOptions}
+            />
+
+            {gameState.answered && (
+              <div className="mt-6">
+                <NextButton 
+                  onClick={handleNextQuestion} 
+                  isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS} 
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
