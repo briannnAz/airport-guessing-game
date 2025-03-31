@@ -12,6 +12,24 @@ This project is built with .
 
 **URL**: https://lovable.dev/projects/25e2cb50-286d-4e3f-ad8e-e413ec7344e3
 
+# Game Instructions
+
+Either Select Normal or Hard Mode
+
+##Normal Mode
+- User is given a City
+- It is up to the user to successfully guess the airport code of the major airport in that city.
+
+#Hard Mode
+- User is given an airport Code
+- You must guess what City this airport Code belongs to.
+
+#Additional information
+- Each game has 10 stages
+- At the end you are given the total you got right out of the number of stages
+- This is recorded locally and shown in a calendar chart per game.
+
+
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
