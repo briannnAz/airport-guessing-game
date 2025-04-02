@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -51,6 +52,14 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        ftusa: {
+          red: "#E31937",
+          blue: "#1B3664",
+          darkblue: "#0A1A36",
+          lightblue: "#EEF5FF",
+          gray: "#F7F7F7",
+          darkgray: "#DDDDDD",
         },
       },
       keyframes: {
