@@ -1,15 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import AnswerOptions from './game/AnswerOptions';
-import QuestionHeader from './game/QuestionHeader';
-import { getRandomAirport, getRandomAirportCodes } from '../services/airportService';
-import { Lightbulb, Plane } from 'lucide-react';
-import { Progress } from './ui/progress';
-import confetti from 'canvas-confetti';
 import { useGameLogic } from './game/GameLogic';
-import NextButton from './game/NextButton';
+import { useAirportData } from '@/hooks/use-airport-data';
+import confetti from 'canvas-confetti';
+import QuestionHeader from './game/QuestionHeader';
+import QuestionCard from './game/QuestionCard';
+import ProgressBar from './game/ProgressBar';
 import Header from './Header';
 
 const TOTAL_QUESTIONS = 10;
@@ -17,63 +15,13 @@ const TOTAL_QUESTIONS = 10;
 const AirportGame = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(true);
-  const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
   const { gameState, updateGameState } = useGameLogic();
-  const [planePosition, setPlanePosition] = useState(0);
-  const [progressValue, setProgressValue] = useState(0);
-
-  const fetchAirportData = async () => {
-    try {
-      setLoading(true);
-      const airport = await getRandomAirport();
-      
-      if (gameState.usedCities.has(airport.wiki_url)) {
-        await fetchAirportData();
-        return;
-      }
-
-      const wrongOptions = await getRandomAirportCodes(airport.iata_code);
-      const allOptions = [...wrongOptions, airport.iata_code].sort(() => 0.5 - Math.random());
-
-      updateGameState({
-        currentAirport: airport,
-        options: allOptions,
-        correctAnswer: airport.iata_code,
-        answered: false,
-        selectedAnswer: null,
-        hintUsed: false,
-        usedCities: new Set([...gameState.usedCities, airport.wiki_url]),
-      });
-      
-      setDisabledOptions([]);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch airport data. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAirportData();
-  }, [gameState.currentQuestion]);
-
-  useEffect(() => {
-    // First move the plane
-    const newPlanePosition = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
-    setPlanePosition(newPlanePosition);
-    
-    // Then after a delay, move the progress bar to match
-    const timer = setTimeout(() => {
-      setProgressValue(newPlanePosition);
-    }, 500); // Half-second delay for progress bar to follow plane
-    
-    return () => clearTimeout(timer);
-  }, [gameState.currentQuestion]);
+  
+  const { loading, disabledOptions, handleHint } = useAirportData({
+    currentQuestion: gameState.currentQuestion,
+    updateGameState,
+    gameState
+  });
 
   const handleNextQuestion = () => {
     if (gameState.currentQuestion === TOTAL_QUESTIONS) {
@@ -95,23 +43,6 @@ const AirportGame = () => {
         currentQuestion: gameState.currentQuestion + 1,
       });
     }
-  };
-
-  const handleHint = () => {
-    if (gameState.hintUsed || gameState.answered) return;
-
-    const incorrectOptions = gameState.options.filter(code => code !== gameState.correctAnswer);
-    const randomIncorrectOption = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
-    
-    setDisabledOptions([randomIncorrectOption]);
-    updateGameState({
-      hintUsed: true,
-    });
-
-    toast({
-      title: "Hint Used",
-      description: "One incorrect option has been disabled.",
-    });
   };
 
   const handleAnswer = (selectedCode: string) => {
@@ -163,48 +94,24 @@ const AirportGame = () => {
             city={gameState.currentAirport?.city || ''}
           />
 
-          <div className="w-full max-w-3xl mb-4">
-            <div className="relative">
-              <Progress value={progressValue} className="w-full h-3" />
-              <div 
-                className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
-                style={{ left: `${planePosition}%` }}
-              >
-                <Plane className="rotate-45" size={24} />
-              </div>
-            </div>
-          </div>
+          <ProgressBar 
+            currentQuestion={gameState.currentQuestion}
+            totalQuestions={TOTAL_QUESTIONS}
+          />
 
-          <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-8 shadow-lg mb-8">
-            <div className="flex items-center justify-center mb-8">
-              <h2 className="text-2xl font-bold">{gameState.currentAirport?.city}</h2>
-              <button
-                onClick={handleHint}
-                disabled={gameState.hintUsed || gameState.answered}
-                className={`ml-3 transition-all duration-300 ${gameState.hintUsed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'} ${!gameState.hintUsed && !gameState.answered ? 'animate-pulse' : ''}`}
-              >
-                <Lightbulb className={`w-6 h-6 ${gameState.hintUsed ? 'text-gray-400' : 'text-yellow-500'}`} />
-              </button>
-            </div>
-
-            <AnswerOptions
-              options={gameState.options}
-              onAnswer={handleAnswer}
-              answered={gameState.answered}
-              selectedAnswer={gameState.selectedAnswer}
-              correctAnswer={gameState.correctAnswer}
-              disabledOptions={disabledOptions}
-            />
-
-            {gameState.answered && (
-              <div className="mt-6">
-                <NextButton 
-                  onClick={handleNextQuestion} 
-                  isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS} 
-                />
-              </div>
-            )}
-          </div>
+          <QuestionCard
+            city={gameState.currentAirport?.city || ''}
+            options={gameState.options}
+            onAnswer={handleAnswer}
+            answered={gameState.answered}
+            selectedAnswer={gameState.selectedAnswer}
+            correctAnswer={gameState.correctAnswer}
+            disabledOptions={disabledOptions}
+            handleHint={handleHint}
+            hintUsed={gameState.hintUsed}
+            onNextQuestion={handleNextQuestion}
+            isLastQuestion={gameState.currentQuestion === TOTAL_QUESTIONS}
+          />
         </div>
       </div>
     </>
