@@ -1,3 +1,4 @@
+
 import airportsData from '../data/airports.json';
 
 export interface Airport {
@@ -6,6 +7,8 @@ export interface Airport {
   name: string;
   city: string;
   country: string;
+  province?: string;
+  continent?: string;
   wiki_url: string;
 }
 

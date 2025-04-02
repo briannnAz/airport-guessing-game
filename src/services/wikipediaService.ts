@@ -1,3 +1,4 @@
+
 export const fetchWikipediaData = async (pageTitle: string) => {
   try {
     const contentUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=1&titles=${pageTitle}&origin=*`;
@@ -36,13 +37,29 @@ export const fetchWikipediaData = async (pageTitle: string) => {
     // Extract airport name from the page title and format it
     const name = pageTitle.replace(/_/g, ' ');
 
+    // Get airport details from the database
+    const airportInfo = airportData.find(a => a.wiki === pageTitle);
+    
+    // Get more accurate location data from our airport database
+    if (airportInfo && airportInfo.locationData) {
+      return {
+        code: airportInfo.code || '',
+        city: city,
+        image: image,
+        province: airportInfo.locationData.province || 'Unknown',
+        country: airportInfo.locationData.country || 'Unknown',
+        continent: airportInfo.locationData.continent || 'Unknown',
+        name: name,
+      };
+    }
+
     return {
-      code: airportData.find(a => a.wiki === pageTitle)?.code || '',
+      code: airportInfo?.code || '',
       city: city,
       image: image,
-      province: 'Various',
-      country: 'Various',
-      continent: 'Various',
+      province: 'Unknown',
+      country: airportInfo?.country || 'Unknown',
+      continent: airportInfo?.continent || 'Unknown',
       name: name,
     };
   } catch (error) {
@@ -52,14 +69,62 @@ export const fetchWikipediaData = async (pageTitle: string) => {
 };
 
 export const airportData = [
-  { code: 'JFK', wiki: 'John_F._Kennedy_International_Airport' },
-  { code: 'LHR', wiki: 'Heathrow_Airport' },
-  { code: 'CDG', wiki: 'Charles_de_Gaulle_Airport' },
-  { code: 'DXB', wiki: 'Dubai_International_Airport' },
-  { code: 'HND', wiki: 'Haneda_Airport' },
-  { code: 'SIN', wiki: 'Singapore_Changi_Airport' },
-  { code: 'LAX', wiki: 'Los_Angeles_International_Airport' },
-  { code: 'AMS', wiki: 'Amsterdam_Airport_Schiphol' },
+  { 
+    code: 'JFK', 
+    wiki: 'John_F._Kennedy_International_Airport', 
+    country: 'United States',
+    continent: 'North America',
+    locationData: { province: 'New York', country: 'United States', continent: 'North America' }
+  },
+  { 
+    code: 'LHR', 
+    wiki: 'Heathrow_Airport', 
+    country: 'United Kingdom',
+    continent: 'Europe',
+    locationData: { province: 'England', country: 'United Kingdom', continent: 'Europe' }
+  },
+  { 
+    code: 'CDG', 
+    wiki: 'Charles_de_Gaulle_Airport', 
+    country: 'France',
+    continent: 'Europe',
+    locationData: { province: 'Île-de-France', country: 'France', continent: 'Europe' }
+  },
+  { 
+    code: 'DXB', 
+    wiki: 'Dubai_International_Airport', 
+    country: 'United Arab Emirates',
+    continent: 'Asia',
+    locationData: { province: 'Dubai', country: 'United Arab Emirates', continent: 'Asia' }
+  },
+  { 
+    code: 'HND', 
+    wiki: 'Haneda_Airport', 
+    country: 'Japan',
+    continent: 'Asia',
+    locationData: { province: 'Tokyo', country: 'Japan', continent: 'Asia' }
+  },
+  { 
+    code: 'SIN', 
+    wiki: 'Singapore_Changi_Airport', 
+    country: 'Singapore',
+    continent: 'Asia',
+    locationData: { province: 'Singapore', country: 'Singapore', continent: 'Asia' }
+  },
+  { 
+    code: 'LAX', 
+    wiki: 'Los_Angeles_International_Airport', 
+    country: 'United States',
+    continent: 'North America',
+    locationData: { province: 'California', country: 'United States', continent: 'North America' }
+  },
+  { 
+    code: 'AMS', 
+    wiki: 'Amsterdam_Airport_Schiphol', 
+    country: 'Netherlands',
+    continent: 'Europe',
+    locationData: { province: 'North Holland', country: 'Netherlands', continent: 'Europe' }
+  },
 ];
 
 export const cityOptions = [
