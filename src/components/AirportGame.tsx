@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +20,8 @@ const AirportGame = () => {
   const [loading, setLoading] = useState(true);
   const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
   const { gameState, updateGameState } = useGameLogic();
+  const [planePosition, setPlanePosition] = useState(0);
+  const [progressValue, setProgressValue] = useState(0);
 
   const fetchAirportData = async () => {
     try {
@@ -57,6 +60,19 @@ const AirportGame = () => {
 
   useEffect(() => {
     fetchAirportData();
+  }, [gameState.currentQuestion]);
+
+  useEffect(() => {
+    // First move the plane
+    const newPlanePosition = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
+    setPlanePosition(newPlanePosition);
+    
+    // Then after a delay, move the progress bar to match
+    const timer = setTimeout(() => {
+      setProgressValue(newPlanePosition);
+    }, 500); // Half-second delay for progress bar to follow plane
+    
+    return () => clearTimeout(timer);
   }, [gameState.currentQuestion]);
 
   const handleNextQuestion = () => {
@@ -136,8 +152,6 @@ const AirportGame = () => {
     );
   }
 
-  const progressPercentage = ((gameState.currentQuestion - 1) / TOTAL_QUESTIONS) * 100;
-
   return (
     <>
       <Header onHomeClick={handleEndGame} />
@@ -151,10 +165,10 @@ const AirportGame = () => {
 
           <div className="w-full max-w-3xl mb-4">
             <div className="relative">
-              <Progress value={progressPercentage} className="w-full h-3" />
+              <Progress value={progressValue} className="w-full h-3" />
               <div 
                 className="absolute top-1/2 -translate-y-1/2 transition-all duration-500"
-                style={{ left: `${progressPercentage}%` }}
+                style={{ left: `${planePosition}%` }}
               >
                 <Plane className="rotate-45" size={24} />
               </div>
